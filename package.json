@@ -1,0 +1,21 @@
+{
+  "name": "crud-operations-with-express-typescript-and-postgresql",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx tsx watch ./src/server.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.5",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
