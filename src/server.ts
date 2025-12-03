@@ -238,6 +238,32 @@ app.get("/todos/:id", async (req: Request, res: Response) => {
     }
 });
 
+app.put("/todos/:id", async (req: Request, res: Response) => {
+    const { title } = req.body;
+    try {
+        const result = await pool.query(`UPDATE todos SET title=$1 WHERE id=$2 RETURNING *`, [title, req.params.id]);
+
+        if (result.rows.length === 0) {
+            res.status(404).json({
+                success: false,
+                message: "Todos not found"
+            })
+        } else {
+            res.status(200).json({
+                success: true,
+                message: "Todos updated successfully",
+                data: result.rows[0]
+            })
+        }
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            message: err.message,
+            details: err
+        })
+    }
+});
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
