@@ -49,8 +49,6 @@ initDB()
 
 
 
-
-
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello boss')
 });
@@ -149,6 +147,8 @@ app.put("/users/:id", async (req: Request, res: Response) => {
     }
 });
 
+
+
 app.delete("/users/:id", async (req: Request, res: Response) => {
     try {
         const result = await pool.query(`DELETE FROM users WHERE id = $1`, [req.params.id]);
@@ -173,6 +173,28 @@ app.delete("/users/:id", async (req: Request, res: Response) => {
         })
     }
 });
+
+
+//todos crud
+
+app.post("/todos", async (req: Request, res: Response) => {
+    const { user_id, title } = req.body;
+
+    try {
+        const result = await pool.query(`INSERT INTO todos(user_id, title) VALUES($1, $2) RETURNING *`, [user_id, title]);
+        res.status(201).json({
+            success: true,
+            message: "Todo created",
+            data: result.rows[0]
+        })
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        })
+    }
+});
+
 
 
 
