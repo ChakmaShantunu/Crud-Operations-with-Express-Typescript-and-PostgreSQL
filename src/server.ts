@@ -55,6 +55,7 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Hello boss')
 });
 
+// users CRUD
 app.post("/users", async (req: Request, res: Response) => {
     console.log(req.body);
     const { name, email } = req.body;
@@ -63,7 +64,7 @@ app.post("/users", async (req: Request, res: Response) => {
         const result = await pool.query(`INSERT INTO users(name, email) VALUES($1, $2) RETURNING *`, [name, email]);
         // console.log(result.rows[0]);
         return res.status(201).json({
-            success: false,
+            success: true,
             message: "Data inserted Successfully",
             data: result.rows[0],
         });
@@ -75,12 +76,25 @@ app.post("/users", async (req: Request, res: Response) => {
             message: err.message
         });
     }
+});
 
-    res.status(201).json({
-        success: true,
-        message: "API is working"
-    })
-})
+app.get("/users", async (req: Request, res: Response) => {
+    try {
+        const result = await pool.query(`SELECT * FROM users`);
+
+        res.status(200).json({
+            success: true,
+            message: "Users retrieved successfully",
+            data: result.rows
+        })
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            message: err.message,
+            details: err
+        })
+    }
+});
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
