@@ -195,7 +195,23 @@ app.post("/todos", async (req: Request, res: Response) => {
     }
 });
 
+app.get("/todos", async (req: Request, res: Response) => {
+    try {
+        const result = await pool.query(`SELECT * FROM todos`);
 
+        res.status(200).json({
+            success: true,
+            message: "Todos retrieved successfully",
+            data: result.rows
+        })
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            message: err.message,
+            details: err
+        })
+    }
+});
 
 
 app.listen(port, () => {
