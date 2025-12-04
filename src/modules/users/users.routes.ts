@@ -8,22 +8,6 @@ const router = express.Router();
 router.post("/", usersControllers.createUser);
 
 
-router.get("/", async (req: Request, res: Response) => {
-    try {
-        const result = await pool.query(`SELECT * FROM users`);
+router.get("/", usersControllers.getUser);
 
-        res.status(200).json({
-            success: true,
-            message: "Users retrieved successfully",
-            data: result.rows
-        })
-    } catch (err: any) {
-        res.status(500).json({
-            success: false,
-            message: err.message,
-            details: err
-        })
-    }
-});
-
-export const userRoutes = router;
+export const usersRoutes = router;

@@ -3,7 +3,7 @@ import { Pool } from "pg";
 import config from "./config";
 import initDB, { pool } from "./config/db";
 import logger from "./middleware/logger";
-import { userRoutes } from "./modules/users/users.routes";
+import { usersRoutes } from "./modules/users/users.routes";
 
 
 
@@ -24,7 +24,7 @@ app.get('/', logger, (req: Request, res: Response) => {
 });
 
 // users CRUD
-app.use("/users", userRoutes)
+app.use("/users", usersRoutes)
 
 
 
