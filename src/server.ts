@@ -32,31 +32,6 @@ app.use("/users", usersRoutes)
 app.use("/todos", todoRoutes)
 
 
-app.get("/todos/:id", async (req: Request, res: Response) => {
-    try {
-        const result = await pool.query(`SELECT * FROM todos WHERE id = $1`, [req.params.id]);
-
-        if (result.rows.length === 0) {
-            res.status(404).json({
-                success: false,
-                message: "Todos not found"
-            })
-        } else {
-            res.status(200).json({
-                success: true,
-                message: "Todos fetched successfully",
-                data: result.rows[0]
-            })
-        }
-    } catch (err: any) {
-        res.status(500).json({
-            success: false,
-            message: err.message,
-            details: err
-        })
-    }
-});
-
 app.put("/todos/:id", async (req: Request, res: Response) => {
     const { title } = req.body;
     try {
