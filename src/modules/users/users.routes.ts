@@ -3,6 +3,7 @@ import { pool } from "../../config/db";
 
 const router = express.Router();
 
+// app.use("/users", userRoutes)
 router.post("/", async (req: Request, res: Response) => {
     console.log(req.body);
     const { name, email } = req.body;
@@ -22,6 +23,25 @@ router.post("/", async (req: Request, res: Response) => {
             success: false,
             message: err.message
         });
+    }
+});
+
+
+router.get("/", async (req: Request, res: Response) => {
+    try {
+        const result = await pool.query(`SELECT * FROM users`);
+
+        res.status(200).json({
+            success: true,
+            message: "Users retrieved successfully",
+            data: result.rows
+        })
+    } catch (err: any) {
+        res.status(500).json({
+            success: false,
+            message: err.message,
+            details: err
+        })
     }
 });
 
