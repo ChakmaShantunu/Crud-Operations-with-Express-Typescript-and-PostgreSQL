@@ -7,7 +7,10 @@ const router = express.Router();
 // app.use("/users", userRoutes)
 router.post("/", usersControllers.createUser);
 
-
 router.get("/", usersControllers.getUser);
+
+router.get("/:id", usersControllers.getSingleUser);
+
+router.put("/:id", usersControllers.updateSingleUser); 
 
 export const usersRoutes = router;
