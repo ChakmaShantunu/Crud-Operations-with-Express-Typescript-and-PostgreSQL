@@ -32,32 +32,6 @@ app.use("/users", usersRoutes)
 app.use("/todos", todoRoutes)
 
 
-
-app.delete("/todos/:id", async (req: Request, res: Response) => {
-    try {
-        const result = await pool.query(`DELETE FROM todos WHERE id = $1`, [req.params.id]);
-
-        if (result.rowCount === 0) {
-            res.status(404).json({
-                success: false,
-                message: "Todos not found"
-            })
-        } else {
-            res.status(200).json({
-                success: true,
-                message: "Todos deleted successfully",
-                data: null,
-            })
-        }
-    } catch (err: any) {
-        res.status(500).json({
-            success: false,
-            message: err.message,
-            details: err
-        })
-    }
-});
-
 // not found route
 app.use((req: Request, res: Response) => {
     res.status(404).json({
