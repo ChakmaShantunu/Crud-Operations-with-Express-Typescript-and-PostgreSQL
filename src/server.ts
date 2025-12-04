@@ -5,6 +5,7 @@ import initDB, { pool } from "./config/db";
 import logger from "./middleware/logger";
 import { usersRoutes } from "./modules/users/users.routes";
 import { todoRoutes } from "./modules/todo/todo.routes";
+import { authRoutes } from "./modules/auth/auth.routes";
 
 
 
@@ -13,11 +14,9 @@ const port = config.port;
 
 // parser
 app.use(express.json()); //middleware
-// app.use(express.urlencoded());
 
 // initializing DB
 initDB()
-
 
 
 app.get('/', logger, (req: Request, res: Response) => {
@@ -29,7 +28,10 @@ app.use("/users", usersRoutes)
 
 
 //todos crud
-app.use("/todos", todoRoutes)
+app.use("/todos", todoRoutes);
+
+//auth routes
+app.use("/auth", authRoutes);
 
 
 // not found route
